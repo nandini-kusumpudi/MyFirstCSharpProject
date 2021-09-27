@@ -45,11 +45,13 @@ namespace MyFirstCSharpProject
 
             //click on administration dropdown
             IWebElement administration = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/a"));
+            Thread.Sleep(3000);
             administration.Click();
 
             //select time & material from dropdown list
             IWebElement TMdropdown = driver.FindElement(By.XPath("/html/body/div[3]/div/div/ul/li[5]/ul/li[3]/a"));
             TMdropdown.Click();
+
 
             //click on "create New" button
             IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id='container']/p/a"));
@@ -85,8 +87,8 @@ namespace MyFirstCSharpProject
             IWebElement goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]"));
             goToLastPageButton.Click();
 
+            Thread.Sleep(5000);
             IWebElement timeRecord =driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
-
             if(timeRecord.Text == "Icsep2021")
             {
                 Console.WriteLine("Time record created successfully, test passed");
@@ -95,10 +97,12 @@ namespace MyFirstCSharpProject
             {
                 Console.WriteLine("Test failed.");
             }
+
+
             // select edit button
             IWebElement editButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
             editButton.Click();
-            Thread.Sleep(5000);
+            
 
             // Edit  code
             codeTextbox = driver.FindElement(By.Id("Code"));
@@ -114,6 +118,11 @@ namespace MyFirstCSharpProject
             driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span")).Click();
 
             PricePerUnit = driver.FindElement(By.Id("Price"));
+            PricePerUnit.Clear();
+
+            driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span")).Click();
+
+            PricePerUnit = driver.FindElement(By.Id("Price"));
             PricePerUnit.SendKeys("123");
 
             //click sava button
@@ -126,8 +135,9 @@ namespace MyFirstCSharpProject
             //After the edited that time record has been created
             goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]"));
             goToLastPageButton.Click();
-       
 
+
+            Thread.Sleep(5000);
             timeRecord = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
 
             if (timeRecord.Text == "sep2021IC")
@@ -138,9 +148,26 @@ namespace MyFirstCSharpProject
             {
                 Console.WriteLine("Test failed.");
             }
+
             
+            IWebElement lastRow = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
+            string lastRowId = lastRow.GetAttribute("data-uid");
 
+            // select delet button
+            IWebElement deletButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[2]"));
+            deletButton.Click();
+            driver.SwitchTo().Alert().Accept();
+            Thread.Sleep(5000);
 
+            lastRow = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]"));
+            if (lastRowId != lastRow.GetAttribute("data-uid"))
+            {
+                Console.WriteLine("Time record deleted successfully, test passed");
+            }
+            else
+            {
+                Console.WriteLine("Test failed.");
+            }
         }
     }
 }
