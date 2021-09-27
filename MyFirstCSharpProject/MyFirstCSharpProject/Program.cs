@@ -95,11 +95,51 @@ namespace MyFirstCSharpProject
             {
                 Console.WriteLine("Test failed.");
             }
-            //// select edit button
-            //IWebElement EditButton = driver.FindElement(By.XPath(" //*[@id='tmsGrid']/div[3]/table/tbody/tr[1]/td[5]/a[1]"));
-            //EditButton.Click();
+            // select edit button
+            IWebElement editButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[5]/a[1]"));
+            editButton.Click();
+            Thread.Sleep(5000);
 
-            //// Edit code
+            // Edit  code
+            codeTextbox = driver.FindElement(By.Id("Code"));
+            codeTextbox.Clear();
+            codeTextbox.SendKeys("sep2021IC");
+
+            //edit  description
+            description = driver.FindElement(By.Id("Description"));
+            description.Clear();
+            description.SendKeys("sep2021 industry connect");
+
+            //edit PricePerUnit
+            driver.FindElement(By.XPath("//*[@id='TimeMaterialEditForm']/div/div[4]/div/span[1]/span")).Click();
+
+            PricePerUnit = driver.FindElement(By.Id("Price"));
+            PricePerUnit.SendKeys("123");
+
+            //click sava button
+            saveButton = driver.FindElement(By.Id("SaveButton"));
+            saveButton.Click();
+
+            //wait for 5second to go to next page
+            Thread.Sleep(5000);
+
+            //After the edited that time record has been created
+            goToLastPageButton = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[4]/a[4]"));
+            goToLastPageButton.Click();
+       
+
+            timeRecord = driver.FindElement(By.XPath("//*[@id='tmsGrid']/div[3]/table/tbody/tr[last()]/td[1]"));
+
+            if (timeRecord.Text == "sep2021IC")
+            {
+                Console.WriteLine("Time record edited successfully, test passed");
+            }
+            else
+            {
+                Console.WriteLine("Test failed.");
+            }
+            
+
 
         }
     }
