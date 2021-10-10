@@ -34,7 +34,7 @@ namespace MyFirstCSharpProject
 
             // edit time
             TMPage tMPageObj = new TMPage();
-            tMPageObj.EditTM(driver);
+            tMPageObj.EditTM(driver, "sep2021 industry connect");
         }
 
         [Test, Order(3), Description(" check if user is able to delete time record")]

@@ -43,13 +43,27 @@ namespace MyFirstCSharpProject.StepDefinition
             string newTypeCode = tMPageObj.GetTypeCode(driver);
             string newDescription = tMPageObj.GetDescription(driver);
             string newPricePerUnit = tMPageObj.GetPricePerUnit(driver);
-            
+
             Assert.That(newCode == "Icsep2021", "code didn't match");
             Assert.That(newTypeCode == "T", "typecode didn't match");
             Assert.That(newDescription == "industry connect sep2021",
                 "Actual Description and expected Description dont match");
             Assert.That(newPricePerUnit == "$2,021.00", "Actual priceperunit and priceperunit code dont match");
-            
+        }
+
+        [When(@"I update '(.*)' on an exiting time and material record")]
+        public void WhenIUpdateOnAnExitingTimeAndMaterialRecord(string description)
+        {
+            TMPage tmPageObj = new TMPage();
+            tmPageObj.EditTM(driver, description);
+        }
+
+        [Then(@"The record should have the '(.*)'")]
+        public void ThenTheRecordShouldHaveThe(string description)
+        {
+            TMPage tmPageObj = new TMPage();
+            string editedDescription = tmPageObj.GetDescription(driver);
+            Assert.That(editedDescription == description, "description don't match");
         }
     }
 }
